@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 
-const Employee = require("./lib/Employee");
+// const Employee = require("./lib/Employee");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
@@ -31,7 +31,12 @@ function managerInfo () {
             message: "What is the Manager's office number?",
             name: "managerOffice"
         }
-    ]);
+    ]).then(mAnswers => {
+        // Create new manager from class constructor and add to team array
+        const manager = new Manager(mAnswers.managerName, mAnswers.managerID, mAnswers.managerEmail, mAnswers.managerOffice);
+        team.push(manager);
+        employeeInfo();
+    });
 }
 
 function employeeInfo () {
@@ -70,9 +75,32 @@ function employeeInfo () {
             message: "What is the Engineer's GitHub URL?",
             name: "engineerGit",
             when: (response) => response.employeeType === "Engineer"
+        },
+        // Last question will determine if questions loop back around again
+        {
+            type: "list",
+            message: "Do you want to create a new Employee?",
+            name: "employeeNew",
+            choices: ["Yes", "No"]
         }
-    ]);
+    ]).then(eAnswers => {
+        // Create new engineer or intern from class constructor and add to team array
+        if(employeeType === "Intern"){
+            const intern = new Intern(eAnswers.employeeName, eAnswers.employeeID, eAnswers.employeeEmail, eAnswers.internSchool);
+            team.push(intern);
+        } else {
+            const engineer = new Engineer(eAnswers.employeeName, eAnswers.employeeID, eAnswers.employeeEmail, eAnswers.engineerGit);
+            team.push(engineer);
+        }
+        // If user wants to create new employee, loop through questions again
+        if(employeeNew === "Yes"){
+            employeeInfo();
+        } else {
+            createHTML();
+        }
+    });
 }
 
-managerInfo();
-employeeInfo();
+function createHTML () {
+    // Create function to render HTML from different templates
+}
