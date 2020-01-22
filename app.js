@@ -205,16 +205,18 @@ function createBody() {
                     console.log(error);
                 }
             });
-        } else if (team[i].getRole() === "Intern"){
+        } else {
             fs.appendFile('output/team.html', iBodyHTML, (error) => {
                 if (error) {
                     console.log(error);
                 }
             });
-        } else { createEnd() }
+        } 
+        // else { createEnd() }
     }
     
     // createEnd();
+    // createEnd function is messing up the formatting! Not sure why
 }
 
 function createEnd() {
