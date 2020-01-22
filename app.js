@@ -163,25 +163,67 @@ function createStart() {
                 <p class="card-text">Manager Email: ${team[0].email}</p>
                 <p class="card-text">Office Number: ${team[0].officeNumber}</p>
             </div>
-        </div>
-    </div>
-</body>
-
-</html>`;
-
+        </div>`;
+    
     fs.writeFile('output/team.html', startHTML, (error) => {
         if (error) {
             console.log(error)
         }
     });
+
+    createBody();
 }
 
 function createBody() {
     // Function to render HTML body cards for every new employee
+    for(i = 1; i < team.length; i++){
+        const eBodyHTML = `
+    <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+        <div class="card-header">Engineer</div>
+        <div class="card-body">
+            <h5 class="card-title">Engineer Name: ${team[i].name}</h5>
+            <p class="card-text">Engineer ID: ${team[i].id}</p>
+            <p class="card-text">Engineer Email: ${team[i].email}</p>
+            <p class="card-text">Engineer GitHub: ${team[i].gitHub}</p>
+        </div>
+    </div>`;
+
+        const iBodyHTML = `
+    <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+        <div class="card-header">Engineer</div>
+        <div class="card-body">
+            <h5 class="card-title">Intern Name: ${team[i].name}</h5>
+            <p class="card-text">Intern ID: ${team[i].id}</p>
+            <p class="card-text">Intern Email: ${team[i].email}</p>
+            <p class="card-text">Intern School: ${team[i].school}</p>
+        </div>
+    </div>`;
+
+        if(team[i].getRole() === "Engineer"){
+            fs.appendFile('output/team.html', eBodyHTML, (error) => {
+                if (error) {
+                    console.log(error);
+                }
+            });
+        } else {
+            fs.appendFile('output/team.html', iBodyHTML, (error) => {
+                if (error) {
+                    console.log(error);
+                }
+            });
+        }
+    }
+    
+    createEnd();
 }
 
 function createEnd() {
     // Function to render closing HTML tags
+    const endHTML = `
+    </div>
+</body>
+
+</html>`
 }
 
 managerInfo();
