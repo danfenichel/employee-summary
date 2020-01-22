@@ -224,6 +224,12 @@ function createEnd() {
 </body>
 
 </html>`
+
+    fs.appendFile('output/team.html', endHTML, (error) => {
+        if (error) {
+            console.log(error);
+        }
+    });
 }
 
 managerInfo();
