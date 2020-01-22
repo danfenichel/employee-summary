@@ -8,7 +8,7 @@ const Manager = require("./lib/Manager");
 
 const team = [];
 
-function managerInfo () {
+function managerInfo() {
     // Every team has one manager; gather manager info first from separate questions
     inquirer.prompt([
         {
@@ -39,7 +39,7 @@ function managerInfo () {
     });
 }
 
-function employeeInfo () {
+function employeeInfo() {
     // Next gather employee information; will loop through as many times as user requests
     inquirer.prompt([
         {
@@ -85,7 +85,7 @@ function employeeInfo () {
         }
     ]).then(eAnswers => {
         // Create new engineer or intern from class constructor and add to team array
-        if(employeeType === "Intern"){
+        if (eAnswers.employeeType === "Intern") {
             const intern = new Intern(eAnswers.employeeName, eAnswers.employeeID, eAnswers.employeeEmail, eAnswers.internSchool);
             team.push(intern);
         } else {
@@ -93,14 +93,95 @@ function employeeInfo () {
             team.push(engineer);
         }
         // If user wants to create new employee, loop through questions again
-        if(employeeNew === "Yes"){
+        if (eAnswers.employeeNew === "Yes") {
             employeeInfo();
         } else {
-            createHTML();
+            createStart();
         }
     });
 }
 
-function createHTML () {
-    // Create function to render HTML from different templates
+function createStart() {
+    // Function to render starting HTML with manager info
+    const startHTML = `
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <title>Team Profile</title>
+    <style>
+        body {
+            font-family: Verdana;
+        }
+
+        .heading {
+            margin: 0 auto;
+            background-color: gray;
+            color: white;
+            padding: 20px;
+            width: auto;
+            display: flex;
+            justify-content: center;
+            box-shadow: 3px 7px 18px #888888;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .card {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="heading">Welcome to your Team Profile</h1>
+    <br>
+    <div class="container">
+        <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
+            <div class="card-header">Manager</div>
+            <div class="card-body">
+                <h5 class="card-title">Manager Name: ${team[0].name}</h5>
+                <p class="card-text">Manager ID: ${team[0].id}</p>
+                <p class="card-text">Manager Email: ${team[0].email}</p>
+                <p class="card-text">Office Number: ${team[0].officeNumber}</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>`;
+
+    fs.writeFile('output/team.html', startHTML, (error) => {
+        if (error) {
+            console.log(error)
+        }
+    });
 }
+
+function createBody() {
+    // Function to render HTML body cards for every new employee
+}
+
+function createEnd() {
+    // Function to render closing HTML tags
+}
+
+managerInfo();
