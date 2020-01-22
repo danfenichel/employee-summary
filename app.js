@@ -184,13 +184,13 @@ function createBody() {
             <h5 class="card-title">Engineer Name: ${team[i].name}</h5>
             <p class="card-text">Engineer ID: ${team[i].id}</p>
             <p class="card-text">Engineer Email: ${team[i].email}</p>
-            <p class="card-text">Engineer GitHub: ${team[i].gitHub}</p>
+            <p class="card-text">Engineer GitHub: ${team[i].github}</p>
         </div>
     </div>`;
 
         const iBodyHTML = `
     <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
-        <div class="card-header">Engineer</div>
+        <div class="card-header">Intern</div>
         <div class="card-body">
             <h5 class="card-title">Intern Name: ${team[i].name}</h5>
             <p class="card-text">Intern ID: ${team[i].id}</p>
@@ -205,16 +205,16 @@ function createBody() {
                     console.log(error);
                 }
             });
-        } else {
+        } else if (team[i].getRole() === "Intern"){
             fs.appendFile('output/team.html', iBodyHTML, (error) => {
                 if (error) {
                     console.log(error);
                 }
             });
-        }
+        } else { createEnd() }
     }
     
-    createEnd();
+    // createEnd();
 }
 
 function createEnd() {
